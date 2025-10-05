@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mazhar Ahmed - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+      />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(to bottom, #0a0f1a, #12161d);
+        color: #f3f4f6; 
+      }
+      
+      html {
+        scroll-behavior: smooth;
+        font-family: sans-serif;
+      }
+      
+      @keyframes bounce-slow {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(12px);
+        }
+      }
+      .animate-bounce-slow {
+        animation: bounce-slow 2s infinite;
+      }
+      
+      .section-bg {
+        position: relative;
+        overflow: hidden;
+      }
+      .section-bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        z-index: 0;
+        transition: opacity 0.8s ease;
+      }
+      .section-bg > * {
+        position: relative;
+        z-index: 1;
+      }
+      
+      .home-bg::before {
+        background-image: url('images/hero-bg.jpg');
+      }
+      .projects-bg::before {
+        background-image: url('images/projects-bg.jpg');
+      }
+      .about-bg::before {
+        background-image: url('images/about-bg.jpg');
+      }
+      
+      .section-bg.active::before {
+        opacity: 0.45;
+      }
+      .projects-bg.active::before {
+        opacity: 0.25;
+      }
+      .about-bg.active::before {
+        opacity: 0.18;
+      }
+      
+      .project-card {
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+      .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      .project-card img {
+        transition: transform 0.3s ease;
+      }
+      .project-card:hover img {
+        transform: scale(1.1);
+      }
+      #follower {
+        position: fixed;
+        width: 15px;
+        height: 15px;
+        background-color: rgba(79,195,247, 0.5); 
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(1);
+        transition: transform 0.15s ease-out, background-color 0.2s ease-out;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 0 8px rgba(79,195,247, 0.4);
+      }
+      #name {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Inter', sans-serif;
+        font-size: 3rem;
+        font-weight: bold;
+        color: #ffffff;
+        cursor: default;
+      }
+
+      .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .gallery-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .gallery-image:hover {
+        transform: scale(1.05);
+      }
+      
+      .image-viewer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      .image-viewer.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .image-viewer img {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        border-radius: 8px;
+      }
+      
+      .smooth-scroll {
+        transition: color 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="relative overflow-x-hidden">
+    <header class="fixed top-0 left-0 w-full z-50 backdrop-blur bg-white/5 px-6 py-4 flex items-center justify-between border-b border-white/10">
+      <div class="flex items-center gap-4">
+        <h1 class="text-lg sm:text-xl font-extrabold text-white">
+          Your<span class="text-blue-500">Name</span>
+        </h1>
+      </div>
+      <div class="flex-1 flex justify-center font-sans ">
+        <nav class="hidden md:flex gap-12 flex w-full justify-center text-md font-bold text-white/80">
+          <a href="#home" class="hover:text-blue text-white text-lg font-semibold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:drop-shadow-[0_0_12px_rgba(255,255,0,1)]" onclick="smoothScrollTo('home')">Home</a>
+          <a href="#projects" class="hover:text-white text-white text-lg font-semibold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:drop-shadow-[0_0_12px_rgba(255,255,0,1)]" onclick="smoothScrollTo('projects')">Projects</a>
+          <a href="#about" class="hover:text-whitetext-white text-lg font-semibold drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] hover:drop-shadow-[0_0_12px_rgba(255,255,0,1)]" onclick="smoothScrollTo('about')">About me | Contact</a>
+        </nav>
+      </div>
+      <div class="flex gap-4 text-white text-lg">
+        <a href="https://github.com/RoboticBrain" target="_blank" class="hover:text-blue-400"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/mazhar-ahmed-875116325" target="_blank" class="hover:text-blue-400"><i class="fab fa-linkedin"></i></a>
+        <button onclick="copyToClipboard('mazharahmed0118@gmail.com')" class="hover:text-blue-400 transition" title="Copy email to clipboard">
+          <i class="fas fa-envelope"></i>
+        </button>
+      </div>
+    </header>
+
+    <section id="home" class="section-bg home-bg min-h-screen flex flex-col items-center justify-center px-4 text-center pt-26">
+      <div class="relative z-10">
+        <h2 class="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold tracking-tight text-white mb-14 whitespace-nowrap">
+          <div id="name" class="flex justify-center gap-0">
+            <span class="text-4xl sm:text-5xl md:text-[5rem]">YOUR</span>
+            <span class="mx-1 sm:mx-2 md:mx-3 lg:mx-5">&nbsp;</span>
+            <span class="text-4xl sm:text-5xl md:text-[5rem]">NAME</span>
+          </div>
+        </h2>
+        <span class="mx-4"></span>
+        <p class="mt-8 text-base sm:text-lg text-white/80 tracking-widest uppercase ">
+          Your Title | Your Specialization
+        </p>
+      </div>
+      <div class="absolute bottom-8 flex justify-center w-full">
+        <button onclick="smoothScrollTo('projects')">
+          <i class="fas fa-chevron-down text-white text-3xl animate-bounce-slow hover:text-blue-500 transition"></i>
+        </button>
+      </div>
+    </section>
+
+    <section id="projects" class="section-bg projects-bg min-h-screen px-6 pt-20 pb-32">
+      <h3 class="text-2xl font-semibold mb-8">See My Latest Work (click to see more)</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6" id="projects-grid">
+        <!-- Projects will be dynamically inserted here -->
+      </div>
+    </section>
+
+    <section id="about" class="section-bg about-bg min-h-screen px-6 lg:px-12 pt-20 pb-0 relative ">
+      <h3 class="text-5xl  font-semibold mb-10 flex flex-row justify-center font-sans ">About&nbsp;me</h3>
+        <hr>
+      <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12 mb-20 mt-10">
+        <div class="flex-1 min-w-0 flex flex-col md:flex-row gap-8">
+          <div class="md:w-80 flex-shrink-0 flex justify-center">
+            <img src="images/profile.jfif"
+                alt="Your Name portrait"
+                class="w-full h-full object-cover rounded-2xl shadow-lg ring-2 ring-blue-500/40"/>
+          </div>
+
+          <div class="flex-1">
+            <h4 class="text-xl font-extrabold mb-3 text-white tracking-tight">Who you are seeing to</h4>
+            <p class="text-white/80 leading-relaxed mb-8">
+              I’m a passionate Web Developer focused on building modern, responsive, and user-friendly web applications. I specialize in frontend development with technologies like Next.js, React, Tailwind CSS, and also explore automation using tools like n8n and Selenium. I’m currently working on enhancing my full-stack development skills and integrating automation to make digital workflows smarter and faster.
+            </p>
+
+            <h4 class="text-xl font-extrabold mb-3 text-white tracking-tight">Core&nbsp;Skills</h4>
+            <div class="flex flex-wrap gap-2" id="skills-container">
+              <!-- Skills will be dynamically inserted here -->
+            </div>
+
+            <a href="documents/mazhar-ahmed-resume.pdf" download
+              class="inline-flex items-center gap-2 mt-10 px-6 py-3 rounded-full
+                      border border-blue-400 text-blue-300 hover:bg-blue-600 hover:text-white
+                      transition font-semibold shadow-sm">
+              <i class="fa-solid fa-file-arrow-down"></i> Download Résumé
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:w-80 w-full">
+          <div class="bg-[#101820]/90 backdrop-blur-md border border-white/10
+                      rounded-xl p-6 shadow-xl">
+            <h4 class="text-xl font-bold text-white mb-4">Education</h4>
+            <p class="text-white/80 leading-relaxed">
+              <span class="block font-semibold">Bachelor degree</span>
+              University of Peshawar<br>
+              <span class="text-sm text-white/60">Computer Science</span><br>
+              <span class="text-sm text-white/60">Graduation: 2025</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="contact" class="max-w-4xl mx-auto bg-[#101820]/90 backdrop-blur-md border border-white/10
+                   rounded-2xl p-8 shadow-xl flex flex-col gap-10 mb-20">
+
+        <div>
+          <h4 class="text-xl font-extrabold mb-4 text-white tracking-tight">Let's Work Together</h4>
+          <p class="text-white/80 leading-relaxed">
+           I’m currently seeking opportunities in Frontend Web Development and Web Design, where I can use both code-based and no-code approaches to build modern, responsive, and visually engaging websites. I enjoy working with technologies in MERN stack, as well as tools like Webflow and Framer to bring creative ideas to life. I’m open to internships and entry level job that help me grow as a developer and designer while delivering meaningful digital experiences.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-6">
+          <div class="bg-[#0f1320] rounded-xl p-6 border border-white/10 hover:border-blue-400
+                    flex flex-col items-center text-center transition cursor-pointer group"
+               onclick="copyToClipboard('your.email@example.com')">
+            <i class="fas fa-envelope text-2xl text-blue-400 mb-3"></i>
+            <span class="text-white font-semibold">Email</span>
+            <span class="text-white/60 text-sm mt-1">mazharahmed0118@gmail.com</span>
+            <span class="text-blue-400 text-xs mt-2 opacity-0 group-hover:opacity-100 transition">Click to copy</span>
+          </div>
+
+          <a href="https://www.linkedin.com/in/mazhar-ahmed-875116325" target="_blank"
+            class="bg-[#0f1320] rounded-xl p-6 border border-white/10 hover:border-blue-400
+                    flex flex-col items-center text-center transition">
+            <i class="fab fa-linkedin text-2xl text-blue-400 mb-3"></i>
+            <span class="text-white font-semibold">LinkedIn</span>
+            <span class="text-white/60 text-sm mt-1">@mazhar-ahmed-875116325</span>
+          </a>
+
+          <a href="https://github.com/RoboticBrain" target="_blank"
+            class="bg-[#0f1320] rounded-xl p-6 border border-white/10 hover:border-blue-400
+                    flex flex-col items-center text-center transition">
+            <i class="fab fa-github text-2xl text-blue-400 mb-3"></i>
+            <span class="text-white font-semibold">GitHub</span>
+            <span class="text-white/60 text-sm mt-1">github.com/RoboticBrain</span>
+          </a>
+        </div>
+      </div>
+
+      <button
+        class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white text-3xl
+               animate-bounce-slow hover:text-blue-500 transition"
+        onclick="smoothScrollTo('home')">
+        <i class="fas fa-chevron-up"></i>
+      </button>
+    </section>
+
+    <div id="project-modal-overlay" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center hidden">
+      <div id="project-modal" class="bg-[#101820]/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/10 max-w-4xl w-full mx-4 p-8 relative max-h-[90vh] overflow-y-auto"
+          onclick="event.stopPropagation();">
+        <button onclick="closeProjectModal()"
+                class="absolute top-4 right-5 text-white/60 hover:text-white p-2 text-xl z-10 transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div id="project-modal-body" class="flex flex-col gap-6 pr-8"></div>
+      </div>
+    </div>
+
+
+    <div id="image-viewer" class="image-viewer" onclick="closeImageViewer()">
+      <button onclick="closeImageViewer()" class="absolute top-4 right-4 text-white text-2xl z-10">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img id="viewer-image" src="" alt="Full size image" />
+    </div>
+
+    <script>
+      // CONFIGURATION SECTION - EDIT THIS TO CUSTOMIZE YOUR PORTFOLIO
+      const portfolioConfig = {
+        name: {
+          first: "Mazhar",
+          last: "Ahmed"
+        },
+        title: "Frontend Developer | React | Web Design | Automation",
+        skills: ["React", "JavaScript","Nextjs","Tailwind","HTML","CSS", "Node.js", "Python", "Automation","SQL", "Git"], // Add your skills here
+        projects: [
+          {
+            title: "Blog site",
+            tech: ["React", "Nextjs", "JavaScript","ORM","tailwind"],
+            desc: "In this blog site users can login into account. Helps the users to create and publish posts or articles and manage thier dashboard.",
+            longDesc: `<b>Role:</b>Full stack web developer<br>
+              <b>Solution:</b> I built the site using Next.js and integrated Kinde for user authentication and login management. For the database layer, I used Prisma ORM with Neon (serverless PostgreSQL) to store user information and blog articles. To secure private routes, I implemented Next.js middleware, ensuring that unauthorized users cannot access restricted URLs. On the frontend, I used Tailwind CSS to create a clean, responsive, and user-friendly interface.<br>
+              <b>Key Features and technologies used:</b> User Authentication, Role-based Access Control, Blog Management, Database Integration, Modern UI
+                 Technologies Used: Next.js, Kinde, Prisma ORM, Neon (PostgreSQL), Next.js Middleware, Tailwind CSS
+                `,
+            images: [
+              "images/project1-1.png",
+              "images/project1-2.png"
+            ],
+            links: [
+              {
+                type: "github",
+                url: "https://github.com/RoboticBrain/next-js-blog-site"
+              }
+            ],
+            status: "Completed", // or "In Progress"
+            category: "Full stack Web Development" // or whatever category fits
+          },
+          {
+            title: "Netflix clone",
+            tech: ["HTMl", "CSS", "Javascript"],
+            desc: "Complete netflix clone website fully responsive for mobile and desktop",
+            longDesc: `<b>Role:</b> Frontend Developer <br>
+<b>Problem:</b> Users needed a visually engaging platform to browse and stream movies/TV shows with a Netflix-like interface. <br>
+<b>Solution:</b> Designed and developed the frontend of a Netflix clone with responsive layouts, dynamic movie sections, and smooth user interactions. <br>
+<b>Key Features:</b> Responsive UI, Movie/TV Show Listings, Video Playback Integration, Search Functionality, Favorites/Watchlist Management`,
+            images: [
+              "images/project2-1.png"
+            ],
+            links: [
+              {
+                type: "github",
+                url: "https://github.com/RoboticBrain/netlix-clone-fully-responsive"
+              }
+            ],
+            status: "Completed",
+            category: "frontend development"
+          },
+           {
+            title: "Youtube rebuild",
+            tech: ["HTMl", "CSS", "Javascript"],
+            desc: "Complete YouTube clone website, fully responsive for both mobile and desktop devices.",
+longDesc: `<b>Role:</b> Frontend Developer <br>
+<b>Problem:</b> Users needed a modern, responsive platform to browse, watch, and upload videos similar to YouTube. <br>
+<b>Solution:</b> Designed and developed the frontend of a YouTube clone with responsive layouts, dynamic video content, and interactive UI components for a seamless user experience. <br>
+<b>Key Features:</b> Responsive UI, Video Playback, Channel Pages, Search Functionality, Video Upload Section, Like/Comment System`
+,
+            images: [
+              "images/project3-1.png"
+            ],
+            links: [
+              {
+                type: "github",
+                url: "https://github.com/RoboticBrain/my-youtube-clone"
+              }
+            ],
+            status: "Completed",
+            category: "frontend development"
+          },
+           {
+            title: "Beautiful and authentic website for doctor",
+            tech: ["HTMl", "CSS"],
+           desc: "Developed a beautifully designed wellness website tailored for doctors and patients.",
+longDesc: `<b>Role:</b> Frontend Developer <br>
+<b>Problem:</b> Doctors needed a professional website to showcase their expertise and allow patients to easily book appointments and access diagnostic information. <br>
+<b>Solution:</b> Designed and developed a responsive wellness website enabling patients to schedule appointments, view medical services, and get diagnostic updates. <br>
+<b>Key Features:</b> Responsive UI, Online Appointment Booking, Doctor Profiles, Patient Dashboard, Service Details, Contact Form, User-friendly Navigation`
+,
+            images: [
+              "images/project4-1.png",
+              "images/project4-2.png",
+              "images/project4-3.png",
+              "images/project4-4.png",
+              "images/project4-5.png"
+            ],
+            links: [
+              {
+                type: "github",
+                url: "https://github.com/RoboticBrain/Wellness-website"
+              }
+            ],
+            status: "Completed",
+            category: "frontend development"
+          }
+          // Add more projects as needed
+        ],
+        
+      };
+
+      // Initialize the portfolio with your configuration
+      function initializePortfolio() {
+        // Update name in header and hero section
+        document.querySelector('h1').innerHTML = `${portfolioConfig.name.first}<span class="text-blue-500">${portfolioConfig.name.last}</span>`;
+        
+        // Update hero name
+        const nameElement = document.getElementById('name');
+        nameElement.innerHTML = `
+          <span class="text-4xl sm:text-5xl md:text-[5rem]">${portfolioConfig.name.first}</span>
+          <span class="mx-1 sm:mx-2 md:mx-3 lg:mx-5">&nbsp;</span>
+          <span class="text-4xl sm:text-5xl md:text-[5rem]">${portfolioConfig.name.last}</span>
+        `;
+
+        // Update title
+        document.querySelector('p.tracking-widest').textContent = portfolioConfig.title;
+
+        // Update skills
+        const skillsContainer = document.getElementById('skills-container');
+        skillsContainer.innerHTML = portfolioConfig.skills.map(skill => 
+          `<span class="bg-blue-700/30 text-blue-300 px-3 py-1 rounded-full text-[11px]">${skill}</span>`
+        ).join('');
+
+        // Update projects
+        const projectsGrid = document.getElementById('projects-grid');
+        projectsGrid.innerHTML = portfolioConfig.projects.map((project, index) => {
+          const statusColor = project.status === 'Completed' ? 'bg-green-700' : 'bg-yellow-600';
+          const categoryColor = getCategoryColor(project.category);
+          
+          return `
+            <div onclick="openProjectModal(${index})"
+                 class="project-card bg-[#101820] p-5 rounded-xl shadow-lg cursor-pointer">
+              <img src="${project.images[0] || 'images/placeholder.jpg'}" alt="${project.title}" class="w-full h-48 object-cover rounded-lg mb-4" />
+              <h3 class="text-xl font-bold text-white mb-2">${project.title}</h3>
+              <div class="flex flex-wrap gap-2 mb-2">
+                <span class="${statusColor} text-white text-xs px-3 py-1 rounded-full">${project.status}</span>
+                <span class="${categoryColor} text-white text-xs px-3 py-1 rounded-full">${project.category}</span>
+              </div>
+              <p class="text-[#b1c9e7] text-sm leading-relaxed mb-4">
+                ${project.desc}
+              </p>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function getCategoryColor(category) {
+        const colors = {
+          'Web Development': 'bg-blue-700',
+          'Backend Development': 'bg-indigo-600',
+          'Mobile Development': 'bg-purple-700',
+          'Data Science': 'bg-emerald-700',
+          'Game Development': 'bg-red-700',
+          'AI/ML': 'bg-orange-700'
+        };
+        return colors[category] || 'bg-gray-700';
+      }
+
+      function smoothScrollTo(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }
+
+      function closeProjectModal() {
+        document.getElementById("project-modal-overlay").classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+      
+      function openProjectModal(idx) {
+        const overlay = document.getElementById('project-modal-overlay');
+        const body = document.getElementById('project-modal-body');
+        const data = portfolioConfig.projects[idx];
+        if (!body) return;
+
+        const techHTML = data.tech
+              .map(t => `<span class="inline-block px-3 py-1 bg-blue-700/30 text-blue-300 rounded-full text-xs mr-2 mb-1">${t}</span>`)
+              .join('');
+
+        const linksHTML = data.links
+              .map(link => {
+                if (link.type === 'github') {
+                  return `<a href="${link.url}" target="_blank"
+                            class="inline-flex items-center px-4 py-2 border border-blue-400 text-blue-400 rounded-full hover:bg-blue-600 hover:text-white transition">
+                            <i class="fa-brands fa-github mr-2"></i> GitHub
+                          </a>`;
+                }
+                return '';
+              })
+              .join('');
+
+        const imagesHTML = data.images && data.images.length > 0
+          ? `<div class="image-gallery">
+               ${data.images.map(img => 
+                 `<img src="${img}" alt="${data.title} screenshot" class="gallery-image" onclick="openImageViewer('${img}')" />`
+               ).join('')}
+             </div>`
+          : '';
+
+        body.innerHTML = `
+            <h3 class="text-2xl font-bold mb-3">${data.title}</h3>
+            <div class="mb-3">${techHTML}</div>
+            <p class="mb-3 text-sm text-white/80">${data.desc}</p>
+            ${imagesHTML}
+            <p class="mb-4 text-white/60">${data.longDesc}</p>
+            <div class="flex gap-3">${linksHTML}</div>
+        `;
+
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      document.addEventListener('mousemove', function(e) {
+        const follower = document.getElementById('follower');
+        follower.style.left = `${e.clientX}px`;
+        follower.style.top = `${e.clientY}px`;
+      });
+
+      function openImageViewer(imageSrc) {
+        const viewer = document.getElementById('image-viewer');
+        const image = document.getElementById('viewer-image');
+        image.src = imageSrc;
+        viewer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeImageViewer() {
+        const viewer = document.getElementById('image-viewer');
+        viewer.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(function() {
+          // Create a temporary notification
+          const notification = document.createElement('div');
+          notification.textContent = 'Email copied to clipboard!';
+          notification.className = 'fixed top-20 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-opacity duration-300';
+          document.body.appendChild(notification);
+          
+          // Remove notification after 2 seconds
+          setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+              document.body.removeChild(notification);
+            }, 300);
+          }, 2000);
+        }).catch(function(err) {
+          console.error('Could not copy text: ', err);
+        });
+      }
+
+      document.getElementById('project-modal-overlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeProjectModal();
+        }
+      });
+
+      function updateActiveBackground() {
+        const sections = document.querySelectorAll('.section-bg');
+        const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
+        
+        sections.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          const sectionTop = scrollY + rect.top;
+          const sectionBottom = sectionTop + rect.height;
+          const viewportCenter = scrollY + windowHeight / 2;
+          
+          if (viewportCenter >= sectionTop && viewportCenter < sectionBottom) {
+            section.classList.add('active');
+          } else {
+            section.classList.remove('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateActiveBackground);
+      window.addEventListener('load', updateActiveBackground);
+      
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeProjectModal();
+          closeImageViewer();
+        }
+      });
+
+
+      // Initialize the portfolio when the page loads
+      document.addEventListener('DOMContentLoaded', initializePortfolio);
+    </script>
+    <div id="follower"></div>
+  </body>
+</html>
