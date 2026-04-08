@@ -210,6 +210,7 @@
 
     <section id="projects" class="section-bg projects-bg min-h-screen px-6 pt-20 pb-32">
       <h3 class="text-2xl font-semibold mb-8">See My Latest Work (click to see more)</h3>
+    
       <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6" id="projects-grid">
         <!-- Projects will be dynamically inserted here -->
       </div>
@@ -229,8 +230,11 @@
           <div class="flex-1">
             <h4 class="text-xl font-extrabold mb-3 text-white tracking-tight">Who you are seeing to</h4>
             <p class="text-white/80 leading-relaxed mb-8">
-              I’m a passionate Web Developer focused on building modern, responsive, and user-friendly web applications. I specialize in frontend development with technologies like Next.js, React, Tailwind CSS, and also explore automation using tools like n8n and Selenium. I’m currently working on enhancing my full-stack development skills and integrating automation to make digital workflows smarter and faster.
-            </p>
+<p class="text-white/80 leading-relaxed mb-8">
+<p class="text-white/80 leading-relaxed mb-8">
+<p class="text-white/80 leading-relaxed mb-8">
+  I’m a passionate Laravel Backend Developer focused on building modern, secure, and user-friendly web applications. I gained hands-on experience working on backend system building RESTful APIs, working with MySQL databases, and developing efficient web applications . I’m currently working on improving my backend development skills while exploring new tools and technologies to build better digital solutions.
+</p></p></p>            </p>
 
             <h4 class="text-xl font-extrabold mb-3 text-white tracking-tight">Core&nbsp;Skills</h4>
             <div class="flex flex-wrap gap-2" id="skills-container">
@@ -265,9 +269,9 @@
 
         <div>
           <h4 class="text-xl font-extrabold mb-4 text-white tracking-tight">Let's Work Together</h4>
-          <p class="text-white/80 leading-relaxed">
-           I’m currently seeking opportunities in Frontend Web Development and Web Design, where I can use both code-based and no-code approaches to build modern, responsive, and visually engaging websites. I enjoy working with technologies in MERN stack, as well as tools like Webflow and Framer to bring creative ideas to life. I’m open to internships and entry level job that help me grow as a developer and designer while delivering meaningful digital experiences.
-          </p>
+         <p class="text-white/80 leading-relaxed">
+            I’m currently seeking opportunities in Laravel Backend Development, where I can build secure, scalable, and efficient web applications. I enjoy working with Laravel, PHP, and MySQL to develop RESTful APIs and backend systems, and I also have basic knowledge of frontend technologies to support full-stack development. I’m open to internships and entry-level roles that allow me to grow as a backend developer while contributing to real-world projects and delivering reliable digital solutions.
+        </p>
         </div>
 
         <div class="grid sm:grid-cols-3 gap-6">
@@ -328,14 +332,44 @@
     <script>
       // CONFIGURATION SECTION - EDIT THIS TO CUSTOMIZE YOUR PORTFOLIO
       const portfolioConfig = {
+        
         name: {
           first: "Mazhar",
           last: "Ahmed"
         },
-        title: "Frontend Developer | React | Web Design | Automation",
-        skills: ["React", "JavaScript","Nextjs","Tailwind","HTML","CSS", "Node.js", "Python", "Automation","SQL", "Git"], // Add your skills here
+        
+        title: "Laravel Developer | PHP | MySql | Boostrape",
+        skills: ["Laravel", "PHP","MySQL","Boostrape", "JavaScript", "Git","Tailwind","HTML & CSS", "Python", "Automation"], // Add your skills here
         projects: [
-          {
+        {
+    title: "Hotel Management System",
+    tech: ["Laravel", "PHP", "MySQL", "Bootstrap"],
+    desc: "A complete hotel management system for booking rooms, managing customers, and handling reservations efficiently.",
+    longDesc: `<b>Role:</b> Full Stack Developer <br>
+    <b>Problem:</b> Hotels needed a digital system to manage room bookings, customer records, and billing efficiently. <br>
+    <b>Solution:</b> Developed a Hotel Management System using Laravel and MySQL that automates reservations, room allocation, and customer management with a clean admin and user dashboard. <br>
+    <b>Key Features:</b> Room Booking System, Customer Management, Admin Dashboard, User Dashboard, Billing & Invoicing, Room Availability Tracking, Secure Authentication <br>
+    <b>Technologies Used:</b> Laravel, PHP, MySQL, Bootstrap, Eloquent ORM`,
+    images: [
+      "images/project5-1.png",
+      "images/project5-2.png",
+      "images/project5-3.png",
+      "images/project5-4.png",
+      "images/project5-5.png",
+      "images/project5-6.png",
+      "images/project5-7.png",
+    ],
+    links: [
+      {
+        type: "github",
+        url: "https://github.com/RoboticBrain/hotel-management-system"
+      }
+    ],
+    status: "Completed",
+    category: "Laravel Backend",
+    featured: true
+  },
+            {
             title: "Blog site",
             tech: ["React", "Nextjs", "JavaScript","ORM","tailwind"],
             desc: "In this blog site users can login into account. Helps the users to create and publish posts or articles and manage thier dashboard.",
@@ -422,8 +456,9 @@ longDesc: `<b>Role:</b> Frontend Developer <br>
             ],
             status: "Completed",
             category: "frontend development"
-          }
-          // Add more projects as needed
+          },
+          
+         
         ],
         
       };
